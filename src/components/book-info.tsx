@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @next/next/no-img-element */
 import { type Book } from "@prisma/client";
 import { format } from "date-fns";
@@ -26,7 +27,7 @@ export const BookInfo = ({ book, onClose }: Props) => {
               className="border px-4 py-2"
               onClick={() => {
                 window.open(
-                  `https://openlibrary.org/works/${book.workId as string}`,
+                  `https://openlibrary.org/works/${book.workId}`,
                   "_blank"
                 );
               }}
