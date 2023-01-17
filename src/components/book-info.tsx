@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { Book } from "@prisma/client";
+import { type Book } from "@prisma/client";
 import { format } from "date-fns";
 import { Popup } from "./popup";
 

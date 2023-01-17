@@ -8,7 +8,7 @@ import { getDayOfYear } from "date-fns";
 import { api } from "@/utils/api";
 import { NamePrompt } from "@/components/name-prompt";
 import { AddBookPopup } from "@/components/add-book-popup";
-import { Book } from "@prisma/client";
+import { type Book } from "@prisma/client";
 import { BookInfo } from "@/components/book-info";
 
 const days = Array.from({ length: 365 }).map((_, index) => {
