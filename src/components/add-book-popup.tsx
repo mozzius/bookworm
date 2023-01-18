@@ -11,13 +11,13 @@ interface Props {
 }
 
 export const AddBookPopup = ({ isOpen, onClose }: Props) => {
-  const utils = api.useContext();
-  const addBook = api.books.add.useMutation({
-    onSuccess() {
-      void utils.books.invalidate();
-      onClose();
-    },
-  });
+  const close = () => {
+    onClose();
+    setTimeout(() => {
+      setSelected(null);
+      setTitle("");
+    }, 500);
+  };
   const [readAt, setReadAt] = useState(new Date().toISOString());
   const [selected, setSelected] = useState<null | string>(null);
   const [title, setTitle] = useState("");
@@ -25,7 +25,13 @@ export const AddBookPopup = ({ isOpen, onClose }: Props) => {
   const search = api.books.search.useQuery(query, {
     enabled: query.length > 2,
   });
-
+  const utils = api.useContext();
+  const addBook = api.books.add.useMutation({
+    onSuccess() {
+      void utils.books.invalidate();
+      close();
+    },
+  });
   let content = null;
 
   if (selected) {
@@ -111,7 +117,7 @@ export const AddBookPopup = ({ isOpen, onClose }: Props) => {
   }
 
   return (
-    <Popup isOpen={isOpen} title="Add a book" onClose={onClose}>
+    <Popup isOpen={isOpen} title="Add a book" onClose={close}>
       {content}
     </Popup>
   );
