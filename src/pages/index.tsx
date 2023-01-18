@@ -114,10 +114,11 @@ export const getServerSideProps = () => {
     props: {
       dayOfYear: getDayOfYear(new Date()),
     },
-    config: {
-      runtime: "edge",
-    },
   };
+};
+
+export const config = {
+  runtime: "experimental-edge",
 };
 
 export default Home;
