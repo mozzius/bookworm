@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { type NextPage } from "next";
+import { type InferGetServerSidePropsType, type NextPage } from "next";
 import Head from "next/head";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useState } from "react";
@@ -17,7 +17,10 @@ const days = Array.from({ length: 365 }).map((_, index) => {
   date.setDate(index + 1);
   return date;
 });
-const Home: NextPage = () => {
+
+const Home: NextPage<
+  InferGetServerSidePropsType<typeof getServerSideProps>
+> = ({ dayOfYear }) => {
   const session = useSession();
   const users = api.books.everyone.useQuery();
   const [addBookPopupOpen, setAddBookPopupOpen] = useState(false);
@@ -70,7 +73,7 @@ const Home: NextPage = () => {
             </div>
             <div
               className="mt-2 h-8 bg-red-500"
-              style={{ width: (32 + 8) * getDayOfYear(new Date()) - 8 - 16 }}
+              style={{ width: (32 + 8) * dayOfYear - 8 - 16 }}
             />
             {users.data &&
               users.data.map((user) => (
@@ -104,6 +107,14 @@ const Home: NextPage = () => {
       </div>
     </>
   );
+};
+
+export const getServerSideProps = () => {
+  return {
+    props: {
+      dayOfYear: getDayOfYear(new Date()),
+    },
+  };
 };
 
 export default Home;
