@@ -114,6 +114,9 @@ export const getServerSideProps = () => {
     props: {
       dayOfYear: getDayOfYear(new Date()),
     },
+    config: {
+      runtime: "edge",
+    },
   };
 };
 
