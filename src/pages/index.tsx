@@ -83,7 +83,7 @@ const Home: NextPage<
                     {user.books.map((book) => (
                       <div
                         key={book.id}
-                        className="relative h-16 w-[272px] cursor-pointer overflow-hidden bg-blue-500 pl-1 text-white shrink-0"
+                        className="relative h-14 w-[272px] cursor-pointer overflow-hidden bg-blue-500 pl-2 pt-1 leading-snug text-white shrink-0"
                         onClick={() => setSelectedBook(book)}
                       >
                         <p className="pointer-events-none relative z-20">

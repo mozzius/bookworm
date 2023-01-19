@@ -10,11 +10,18 @@ const openLibrarySearchSchema = z.object({
         title: z.string(),
         author_name: z.array(z.string()).optional(),
         first_publish_year: z.number().optional(),
+        cover_i: z.number().optional(),
+        cover_edition_key: z.string().optional(),
         lccn: z.array(z.string()).optional(),
+        oclc: z.array(z.string()).optional(),
+        isbn: z.array(z.string()).optional(),
       })
       .passthrough()
   ),
 });
+
+const imgUrl = (kind: string, id: string) => (size: "S" | "M" | "L") =>
+  `https://covers.openlibrary.org/b/${kind}/${id}-${size}.jpg`;
 
 export const booksRouter = createTRPCRouter({
   everyone: publicProcedure.query(async ({ ctx }) => {
@@ -47,24 +54,30 @@ export const booksRouter = createTRPCRouter({
     );
     if (!res.ok) throw new Error("Failed to search books");
     const json = openLibrarySearchSchema.parse(await res.json());
-    // console.log(json.docs[0]);
-    return json.docs.map((doc) => ({
-      workId: doc.key.split("/").pop() as string,
-      title: doc.title,
-      author: doc.author_name?.[0],
-      firstPublishYear: doc.first_publish_year,
-      images: {
-        small: `https://covers.openlibrary.org/b/lccn/${
-          doc.lccn?.[0] ?? ""
-        }-S.jpg`,
-        medium: `https://covers.openlibrary.org/b/lccn/${
-          doc.lccn?.[0] ?? ""
-        }-M.jpg`,
-        large: `https://covers.openlibrary.org/b/lccn/${
-          doc.lccn?.[0] ?? ""
-        }-L.jpg`,
-      },
-    }));
+    console.log(json.docs[0]);
+    return json.docs.map((doc) => {
+      let img = (size: "S" | "M" | "L") => (
+        void size, undefined as string | undefined
+      );
+      if (doc.cover_i) img = imgUrl("id", doc.cover_i.toString());
+      else if (doc.cover_edition_key)
+        img = imgUrl("olid", doc.cover_edition_key);
+      else if (doc.lccn?.[0]) img = imgUrl("lccn", doc.lccn[0]);
+      else if (doc.oclc?.[0]) img = imgUrl("oclc", doc.oclc[0]);
+      else if (doc.isbn?.[0]) img = imgUrl("isbn", doc.isbn[0]);
+
+      return {
+        workId: doc.key.split("/").pop() as string,
+        title: doc.title,
+        author: doc.author_name?.[0],
+        firstPublishYear: doc.first_publish_year,
+        images: {
+          small: img("S"),
+          medium: img("M"),
+          large: img("L"),
+        },
+      };
+    });
   }),
   add: protectedProcedure
     .input(

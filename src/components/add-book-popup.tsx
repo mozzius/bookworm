@@ -32,6 +32,7 @@ export const AddBookPopup = ({ isOpen, onClose }: Props) => {
       close();
     },
   });
+
   let content = null;
 
   if (selected) {
@@ -50,28 +51,32 @@ export const AddBookPopup = ({ isOpen, onClose }: Props) => {
           </div>
           <img src={book.images.medium} alt="" />
         </div>
-        <p>When did you finish reading?</p>
-        <input
-          type="date"
-          className="w-40 border px-4 py-2"
-          value={readAt}
-          onChange={(evt) => setReadAt(evt.target.value)}
-        />
-        <button
-          className="float-right mt-4 border-none bg-slate-600 px-4 py-2 text-white"
-          onClick={() =>
-            addBook.mutate({
-              workId: book.workId,
-              title: book.title,
-              author: book.author,
-              firstPublishYear: book.firstPublishYear,
-              image: book.images.medium,
-              readAt: new Date(readAt),
-            })
-          }
-        >
-          Add book
-        </button>
+        <div className="mt-4 flex items-end justify-between">
+          <div>
+            <p>When did you finish reading?</p>
+            <input
+              type="date"
+              className="mt-1 w-40 border px-4 py-2"
+              value={readAt}
+              onChange={(evt) => setReadAt(evt.target.value)}
+            />
+          </div>
+          <button
+            className="float-right mt-4 border-none bg-slate-600 px-4 py-2 text-white"
+            onClick={() =>
+              addBook.mutate({
+                workId: book.workId,
+                title: book.title,
+                author: book.author,
+                firstPublishYear: book.firstPublishYear,
+                image: book.images.medium,
+                readAt: new Date(readAt),
+              })
+            }
+          >
+            Add book
+          </button>
+        </div>
       </>
     );
   } else {
