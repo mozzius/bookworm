@@ -4,12 +4,13 @@ import Head from "next/head";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useState } from "react";
 import { getDayOfYear } from "date-fns";
+import { Plus } from "lucide-react";
 
 import { api } from "@/utils/api";
 import { NamePrompt } from "@/components/name-prompt";
 import { AddBookPopup } from "@/components/add-book-popup";
 import { BookCard } from "@/components/book-card";
-import { Plus } from "lucide-react";
+import { cx } from "@/utils/classes";
 
 const days = Array.from({ length: 365 }).map((_, index) => {
   const date = new Date();
@@ -25,6 +26,8 @@ const Home: NextPage<
   const users = api.books.everyone.useQuery();
   const [addBookPopupOpen, setAddBookPopupOpen] = useState(false);
 
+  const authed = session.status === "authenticated";
+
   return (
     <>
       <Head>
@@ -38,28 +41,35 @@ const Home: NextPage<
       />
       <div className="flex min-h-screen flex-col">
         <header className="flex h-20 w-full grow-0 items-center justify-between px-8">
-          <h1 className="hidden sm:inline-block text-4xl font-bold">52 Books</h1>
-          {session.status === "authenticated" && (
-            <button
-              onClick={() => setAddBookPopupOpen(true)}
-              className="shrink-0 flex items-center gap-2 rounded-sm bg-blue-500 py-2 px-4 text-white shadow"
-            >
-              <Plus /> Add book
-            </button>
-          )}
-          {session.status === "authenticated" ? (
-            <button
-              onClick={() => void signOut()}
-              className="whitespace-nowrap rounded-sm border px-4 py-2"
-            >
-              Sign out
-            </button>
+          <h1
+            className={cx(
+              "text-4xl font-bold",
+              authed && "hidden sm:inline-block"
+            )}
+          >
+            52 Books
+          </h1>
+          {authed ? (
+            <>
+              <button
+                onClick={() => setAddBookPopupOpen(true)}
+                className="flex shrink-0 items-center gap-2 rounded-sm bg-blue-500 py-2 px-4 text-white shadow"
+              >
+                <Plus /> Add book
+              </button>
+              <button
+                onClick={() => void signOut()}
+                className="whitespace-nowrap rounded-sm border px-4 py-2"
+              >
+                Sign out
+              </button>
+            </>
           ) : (
             <button
               onClick={() => void signIn()}
               className="whitespace-nowrap rounded-sm border px-4 py-2"
             >
-              Sign out
+              Sign in
             </button>
           )}
         </header>
@@ -73,14 +83,14 @@ const Home: NextPage<
                       {day.toLocaleString("default", { month: "long" })}
                     </p>
                   )}
-                  <div className="h-8 w-8 bg-slate-200 pl-1 rounded-sm">
+                  <div className="h-8 w-8 rounded-sm bg-slate-200 pl-1">
                     {day.getDate()}
                   </div>
                 </div>
               ))}
             </div>
             <div
-              className="mt-2 h-8 bg-red-500 rounded-sm"
+              className="mt-2 h-8 rounded-sm bg-red-500"
               style={{ width: (32 + 8) * dayOfYear - 8 - 16 }}
             />
             {users.data &&
