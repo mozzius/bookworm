@@ -8,8 +8,8 @@ import { getDayOfYear } from "date-fns";
 import { api } from "@/utils/api";
 import { NamePrompt } from "@/components/name-prompt";
 import { AddBookPopup } from "@/components/add-book-popup";
-import { type Book } from "@prisma/client";
-import { BookInfo } from "@/components/book-info";
+import { BookCard } from "@/components/book-card";
+import { Plus } from "lucide-react";
 
 const days = Array.from({ length: 365 }).map((_, index) => {
   const date = new Date();
@@ -24,7 +24,6 @@ const Home: NextPage<
   const session = useSession();
   const users = api.books.everyone.useQuery();
   const [addBookPopupOpen, setAddBookPopupOpen] = useState(false);
-  const [selectedBook, setSelectedBook] = useState<null | Book>(null);
 
   return (
     <>
@@ -37,25 +36,34 @@ const Home: NextPage<
         isOpen={addBookPopupOpen}
         onClose={() => setAddBookPopupOpen(false)}
       />
-      <BookInfo book={selectedBook} onClose={() => setSelectedBook(null)} />
       <div className="flex min-h-screen flex-col">
-        <header className="flex h-20 w-full grow-0 items-center justify-between px-4">
-          <h1 className="w-full text-4xl font-bold">52 Books</h1>
-          {session.status === "authenticated" ? (
-            <button onClick={() => void signOut()}>Logout</button>
-          ) : (
-            <button onClick={() => void signIn()}>Login</button>
-          )}
-        </header>
-        <main className="flex flex-1 flex-col items-center justify-center">
+        <header className="flex h-20 w-full grow-0 items-center justify-between px-8">
+          <h1 className="text-4xl font-bold">52 Books</h1>
           {session.status === "authenticated" && (
             <button
               onClick={() => setAddBookPopupOpen(true)}
-              className="mb-4 bg-slate-500 py-2 px-4 text-white"
+              className="flex items-center gap-2 rounded-sm bg-blue-500 py-2 px-4 text-white shadow"
             >
-              Add book
+              <Plus /> Add book
             </button>
           )}
+          {session.status === "authenticated" ? (
+            <button
+              onClick={() => void signOut()}
+              className="whitespace-nowrap rounded-sm border px-4 py-2"
+            >
+              Sign out
+            </button>
+          ) : (
+            <button
+              onClick={() => void signIn()}
+              className="whitespace-nowrap rounded-sm border px-4 py-2"
+            >
+              Sign out
+            </button>
+          )}
+        </header>
+        <main className="flex flex-1 flex-col items-center justify-center">
           <div className="flex w-full flex-1 flex-col overflow-x-scroll px-8">
             <div className="relative flex space-x-2 pt-8">
               {days.map((day) => (
@@ -65,43 +73,43 @@ const Home: NextPage<
                       {day.toLocaleString("default", { month: "long" })}
                     </p>
                   )}
-                  <div className="h-8 w-8 bg-slate-200 pl-1">
+                  <div className="h-8 w-8 bg-slate-200 pl-1 rounded-sm">
                     {day.getDate()}
                   </div>
                 </div>
               ))}
             </div>
             <div
-              className="mt-2 h-8 bg-red-500"
+              className="mt-2 h-8 bg-red-500 rounded-sm"
               style={{ width: (32 + 8) * dayOfYear - 8 - 16 }}
             />
             {users.data &&
-              users.data.map((user) => (
-                <div key={user.id} className="mt-4">
-                  <p className="absolute">{user.name}</p>
-                  <div className="mt-7 flex space-x-2">
-                    {user.books.map((book) => (
-                      <div
-                        key={book.id}
-                        className="relative h-14 w-[272px] cursor-pointer overflow-hidden bg-blue-500 pl-2 pt-1 leading-snug text-white shrink-0"
-                        onClick={() => setSelectedBook(book)}
-                      >
-                        <p className="pointer-events-none relative z-20">
-                          <span className="font-bold">{book.title}</span> by{" "}
-                          {book.author}
-                        </p>
-                        {book.image && (
-                          <img
-                            src={book.image}
-                            alt=""
-                            className="absolute top-0 left-0 z-10 h-full w-full object-cover opacity-10 transition-transform duration-300 hover:scale-125"
-                          />
-                        )}
-                      </div>
-                    ))}
+              users.data.map((user, i) => {
+                let prize = null;
+                switch (i) {
+                  case 0:
+                    prize = "🥇";
+                    break;
+                  case 1:
+                    prize = "🥈";
+                    break;
+                  case 2:
+                    prize = "🥉";
+                    break;
+                }
+                return (
+                  <div key={user.id} className="mt-4">
+                    <p className="absolute">
+                      {prize} {user.name}
+                    </p>
+                    <div className="mt-7 flex space-x-2">
+                      {user.books.map((book) => (
+                        <BookCard key={book.id} book={book} />
+                      ))}
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
           </div>
         </main>
       </div>

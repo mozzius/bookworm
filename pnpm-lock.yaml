@@ -19,6 +19,7 @@ specifiers:
   date-fns: ^2.29.3
   eslint: ^8.32.0
   eslint-config-next: 13.1.2
+  lucide-react: ^0.127.0
   next: 13.1.2
   next-auth: ^4.18.8
   nodemailer: ^6.9.0
@@ -43,6 +44,7 @@ dependencies:
   '@trpc/react-query': 10.9.0_qw4miir7nnxijwjta54q3esyeq
   '@trpc/server': 10.9.0
   date-fns: 2.29.3
+  lucide-react: 0.127.0_react@18.2.0
   next: 13.1.2_biqbaboplfbrettd7655fr4n2y
   next-auth: 4.18.8_wezc2nlx4kxzcktysjgyxkmdoe
   nodemailer: 6.9.0
@@ -1933,6 +1935,14 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       yallist: 4.0.0
+
+  /lucide-react/0.127.0_react@18.2.0:
+    resolution: {integrity: sha512-9xxwl2FbdwWDjB0L6FEsOSbeOVp7Pj+L3urz+xDJNx1xggmQgGjeKDJQ28i/9ON8rV9HaqwQveBtsYnHqtWLqg==}
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
+    dev: false
 
   /merge2/1.4.1:
     resolution: {integrity: sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==}
