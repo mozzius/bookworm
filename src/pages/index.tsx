@@ -38,11 +38,11 @@ const Home: NextPage<
       />
       <div className="flex min-h-screen flex-col">
         <header className="flex h-20 w-full grow-0 items-center justify-between px-8">
-          <h1 className="text-4xl font-bold">52 Books</h1>
+          <h1 className="hidden sm:inline-block text-4xl font-bold">52 Books</h1>
           {session.status === "authenticated" && (
             <button
               onClick={() => setAddBookPopupOpen(true)}
-              className="flex items-center gap-2 rounded-sm bg-blue-500 py-2 px-4 text-white shadow"
+              className="shrink-0 flex items-center gap-2 rounded-sm bg-blue-500 py-2 px-4 text-white shadow"
             >
               <Plus /> Add book
             </button>
