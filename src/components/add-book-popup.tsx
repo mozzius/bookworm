@@ -5,7 +5,7 @@ import { api } from "@/utils/api";
 import { Popup } from "./popup";
 import { useDebounce } from "@/utils/hooks";
 import { RatingPrompt } from "./rating-prompt";
-import { Book } from "@prisma/client";
+import { type Book } from "@prisma/client";
 
 interface Props {
   isOpen: boolean;
@@ -31,7 +31,7 @@ export const AddBookPopup = ({ isOpen, onClose }: Props) => {
   const utils = api.useContext();
   const addBook = api.books.add.useMutation({
     onSuccess(book) {
-      utils.books.invalidate();
+      void utils.books.invalidate();
       close();
       setBookToReview(book);
     },
@@ -69,7 +69,7 @@ export const AddBookPopup = ({ isOpen, onClose }: Props) => {
             className="float-right mt-4 border-none bg-slate-600 px-4 py-2 text-white disabled:opacity-50"
             disabled={addBook.isLoading}
             onClick={() =>
-              addBook.mutate({
+              void addBook.mutate({
                 workId: book.workId,
                 title: book.title,
                 author: book.author,

@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @next/next/no-img-element */
-import { User, type Book } from "@prisma/client";
+import { type User, type Book } from "@prisma/client";
 import { format } from "date-fns";
 import { ExternalLink } from "lucide-react";
-import { Popup } from "./popup";
 import { useSession } from "next-auth/react";
+
+import { Popup } from "./popup";
 
 interface Props {
   show: boolean;
@@ -34,7 +35,7 @@ export const BookInfo = ({ book, show, onClose, onReview }: Props) => {
           )}
           {book.review && (
             <div className="mt-3 rounded border border-slate-400 bg-slate-50   py-1 px-2">
-              <p className="text-sm">{book.user.name}'s Review</p>
+              <p className="text-sm">{book.user.name}&apos;s Review</p>
               {book.review.split("\n").map((line, i) => (
                 <p key={i}>{line}</p>
               ))}
@@ -47,12 +48,12 @@ export const BookInfo = ({ book, show, onClose, onReview }: Props) => {
           )}
         </div>
         {book.image && (
-          <div className="w-full py-2 sm:w-1/3 sm:py-0 shrink-0">
+          <div className="w-full shrink-0 py-2 sm:w-1/3 sm:py-0">
             <img src={book.image} alt={book.title} className="mx-auto" />
           </div>
         )}
       </div>
-      <div className="mt-4 flex justify-between gap-4 flex-wrap">
+      <div className="mt-4 flex flex-wrap justify-between gap-4">
         <button
           className="flex items-center gap-2 rounded-sm border px-4 py-2"
           onClick={() => {

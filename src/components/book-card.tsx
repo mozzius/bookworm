@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { User, type Book } from "@prisma/client";
+import { type User, type Book } from "@prisma/client";
 import { useState } from "react";
 import { BookInfo } from "./book-info";
 import { RatingPrompt } from "./rating-prompt";

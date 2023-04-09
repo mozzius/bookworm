@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Popup } from "./popup";
 import { api } from "@/utils/api";
-import { Book } from "@prisma/client";
+import { type Book } from "@prisma/client";
 import clsx from "clsx";
 
 interface Props {
