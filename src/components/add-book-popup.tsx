@@ -4,6 +4,8 @@ import { useState } from "react";
 import { api } from "@/utils/api";
 import { Popup } from "./popup";
 import { useDebounce } from "@/utils/hooks";
+import { RatingPrompt } from "./rating-prompt";
+import { Book } from "@prisma/client";
 
 interface Props {
   isOpen: boolean;
@@ -21,15 +23,17 @@ export const AddBookPopup = ({ isOpen, onClose }: Props) => {
   const [readAt, setReadAt] = useState(new Date().toISOString());
   const [selected, setSelected] = useState<null | string>(null);
   const [title, setTitle] = useState("");
+  const [bookToReview, setBookToReview] = useState<null | Book>(null);
   const query = useDebounce(title, 500);
   const search = api.books.search.useQuery(query, {
     enabled: query.length > 2,
   });
   const utils = api.useContext();
   const addBook = api.books.add.useMutation({
-    onSuccess() {
-      void utils.books.invalidate();
+    onSuccess(book) {
+      utils.books.invalidate();
       close();
+      setBookToReview(book);
     },
   });
 
@@ -44,8 +48,8 @@ export const AddBookPopup = ({ isOpen, onClose }: Props) => {
         <div className="flex justify-between">
           <div>
             <h2 className="text-xl">
-              {book.title}{" "}
-              {book.firstPublishYear && `(${book.firstPublishYear})`}
+              {book.title}
+              {book.firstPublishYear && ` (${book.firstPublishYear})`}
             </h2>
             <p className="text-black/70">{book.author}</p>
           </div>
@@ -62,7 +66,8 @@ export const AddBookPopup = ({ isOpen, onClose }: Props) => {
             />
           </div>
           <button
-            className="float-right mt-4 border-none bg-slate-600 px-4 py-2 text-white"
+            className="float-right mt-4 border-none bg-slate-600 px-4 py-2 text-white disabled:opacity-50"
+            disabled={addBook.isLoading}
             onClick={() =>
               addBook.mutate({
                 workId: book.workId,
@@ -122,8 +127,17 @@ export const AddBookPopup = ({ isOpen, onClose }: Props) => {
   }
 
   return (
-    <Popup isOpen={isOpen} title="Add a book" onClose={close}>
-      {content}
-    </Popup>
+    <>
+      <Popup isOpen={isOpen} title="Add a book" onClose={close}>
+        {content}
+      </Popup>
+      {bookToReview && (
+        <RatingPrompt
+          book={bookToReview}
+          isOpen={true}
+          onClose={() => setBookToReview(null)}
+        />
+      )}
+    </>
   );
 };

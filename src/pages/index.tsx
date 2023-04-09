@@ -43,7 +43,7 @@ const Home: NextPage<
         <header className="flex h-20 w-full grow-0 items-center justify-between px-8">
           <h1
             className={cx(
-              "text-4xl font-bold",
+              "text-4xl font-medium",
               authed && "hidden sm:inline-block"
             )}
           >

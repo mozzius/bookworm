@@ -29,10 +29,13 @@ export const booksRouter = createTRPCRouter({
       orderBy: {
         books: {
           _count: "desc",
-        }
+        },
       },
       include: {
         books: {
+          include: {
+            user: true,
+          },
           orderBy: {
             readAt: "asc",
           },
@@ -112,5 +115,29 @@ export const booksRouter = createTRPCRouter({
         },
       });
       return book;
+    }),
+  rate: protectedProcedure
+    .input(
+      z.object({
+        bookId: z.string(),
+        rating: z.number().min(1).max(5).nullable(),
+        review: z.string().nullable(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const book = await ctx.prisma.book.findFirst({
+        where: { id: input.bookId },
+      });
+      if (!book) throw new Error("Book not found");
+      if (book.userId !== ctx.session.user.id)
+        throw new Error("Not authorized");
+
+      await ctx.prisma.book.update({
+        where: { id: input.bookId },
+        data: {
+          rating: input.rating,
+          review: input.review,
+        },
+      });
     }),
 });

@@ -1,21 +1,25 @@
 /* eslint-disable @next/next/no-img-element */
-import { type Book } from "@prisma/client";
+import { User, type Book } from "@prisma/client";
 import { useState } from "react";
 import { BookInfo } from "./book-info";
+import { RatingPrompt } from "./rating-prompt";
 
 interface Props {
-  book: Book;
+  book: Book & {
+    user: User;
+  };
 }
 
 export const BookCard = ({ book }: Props) => {
-  const [open, setOpen] = useState(false);
+  const [infoOpen, setInfoOpen] = useState(false);
+  const [ratingOpen, setRatingOpen] = useState(false);
 
   return (
     <>
       <div
         key={book.id}
-        className="relative h-14 w-[272px] shrink-0 rounded-sm cursor-pointer overflow-hidden bg-blue-500 pl-2 pt-1 leading-snug text-white"
-        onClick={() => setOpen(true)}
+        className="relative h-14 w-[272px] shrink-0 cursor-pointer overflow-hidden rounded-sm bg-blue-500 pl-2 pt-1 leading-snug text-white"
+        onClick={() => setInfoOpen(true)}
       >
         <p className="pointer-events-none relative z-20">
           <span className="font-bold">{book.title}</span> by {book.author}
@@ -28,7 +32,17 @@ export const BookCard = ({ book }: Props) => {
           />
         )}
       </div>
-      <BookInfo book={book} show={open} onClose={() => setOpen(false)} />
+      <BookInfo
+        book={book}
+        show={infoOpen}
+        onClose={() => setInfoOpen(false)}
+        onReview={() => setRatingOpen(true)}
+      />
+      <RatingPrompt
+        book={book}
+        isOpen={ratingOpen}
+        onClose={() => setRatingOpen(false)}
+      />
     </>
   );
 };

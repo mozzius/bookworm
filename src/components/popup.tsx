@@ -40,7 +40,7 @@ export const Popup = ({ isOpen, onClose, title, children }: Props) => {
           >
             <div className="flex min-h-full items-center justify-center p-4">
               <Dialog.Panel className="relative mx-auto w-full max-w-xl rounded bg-white p-8">
-                <Dialog.Title className="mb-8 text-3xl font-bold">
+                <Dialog.Title className="mb-8 text-3xl font-medium">
                   {title}
                 </Dialog.Title>
                 {!!onClose && (
