@@ -67,7 +67,7 @@ export const AddBookPopup = ({ isOpen, onClose }: Props) => {
           </div>
           <button
             className="float-right mt-4 border-none bg-slate-600 px-4 py-2 text-white disabled:opacity-50"
-            disabled={addBook.isLoading}
+            disabled={addBook.isPending}
             onClick={() =>
               void addBook.mutate({
                 workId: book.workId,
@@ -115,7 +115,7 @@ export const AddBookPopup = ({ isOpen, onClose }: Props) => {
               </div>
             ))
           ) : query.length > 2 ? (
-            search.isLoading && <p className="my-10 text-center">Loading...</p>
+            search.isPending && <p className="my-10 text-center">Loading...</p>
           ) : (
             <p className="my-10 text-center">
               Enter the name of a book to search for it

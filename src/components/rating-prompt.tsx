@@ -46,7 +46,7 @@ export const RatingPrompt = ({ book, isOpen, onClose }: Props) => {
       </div>
       <button
         className="float-right mt-4 border-none bg-slate-600 px-4 py-2 text-white disabled:opacity-50"
-        disabled={rate.isLoading}
+        disabled={rate.isPending}
         onClick={() =>
           rate.mutate({
             bookId: book.id,
