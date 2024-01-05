@@ -36,7 +36,7 @@ export const booksRouter = createTRPCRouter({
           where: {
             readAt: {
               gte: new Date(new Date().getFullYear().toString()),
-            }
+            },
           },
           include: {
             user: true,
@@ -101,6 +101,7 @@ export const booksRouter = createTRPCRouter({
         readAt: z.date(),
         firstPublishYear: z.number().optional(),
         image: z.string().optional(),
+        format: z.enum(["BOOK", "AUDIOBOOK"]).optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -112,6 +113,7 @@ export const booksRouter = createTRPCRouter({
           readAt: input.readAt,
           image: input.image,
           firstPublishYear: input.firstPublishYear,
+          format: input.format,
           user: {
             connect: {
               id: ctx.session.user.id,

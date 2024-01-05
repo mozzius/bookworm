@@ -2,7 +2,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { type Book, type User } from "@prisma/client";
 import { format } from "date-fns";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, HeadphonesIcon } from "lucide-react";
 import { useSession } from "next-auth/react";
 
 import { Popup } from "./popup";
@@ -27,6 +27,12 @@ export const BookInfo = ({ book, show, onClose, onReview }: Props) => {
           <p className="mt-3">
             Finished on {format(book.readAt, "dd/MM/yyyy")}
           </p>
+          {book.format === "AUDIOBOOK" && (
+            <p className="mt-3 flex flex-row items-center gap-1">
+              <HeadphonesIcon className="h-4 w-4" />
+              Audiobook
+            </p>
+          )}
           {book.rating && (
             <p>
               Rating: {"★".repeat(book.rating)}

@@ -24,6 +24,8 @@ export const AddBookPopup = ({ isOpen, onClose }: Props) => {
   const [selected, setSelected] = useState<null | string>(null);
   const [title, setTitle] = useState("");
   const [bookToReview, setBookToReview] = useState<null | Book>(null);
+  const [isAudiobook, setIsAudiobook] = useState(false);
+
   const query = useDebounce(title, 500);
   const search = api.books.search.useQuery(query, {
     enabled: query.length > 2,
@@ -56,14 +58,23 @@ export const AddBookPopup = ({ isOpen, onClose }: Props) => {
           <img src={book.images.medium} alt="" />
         </div>
         <div className="mt-4 flex items-end justify-between">
-          <div>
+          <div className="flex flex-col gap-2">
             <p>When did you finish reading?</p>
             <input
               type="date"
               className="mt-1 w-40 border px-4 py-2"
               value={readAt}
               onChange={(evt) => setReadAt(evt.target.value)}
+              defaultValue={new Date().toISOString().substring(0, 10)}
             />
+            <label>
+              <input
+                type="checkbox"
+                checked={isAudiobook}
+                onChange={() => setIsAudiobook(!isAudiobook)}
+              />{" "}
+              Listened as an audiobook
+            </label>
           </div>
           <button
             className="float-right mt-4 border-none bg-slate-600 px-4 py-2 text-white disabled:opacity-50"
@@ -75,6 +86,7 @@ export const AddBookPopup = ({ isOpen, onClose }: Props) => {
                 author: book.author,
                 firstPublishYear: book.firstPublishYear,
                 image: book.images.medium,
+                format: isAudiobook ? "AUDIOBOOK" : "BOOK",
                 readAt: new Date(readAt),
               })
             }
