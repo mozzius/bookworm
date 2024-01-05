@@ -33,6 +33,11 @@ export const booksRouter = createTRPCRouter({
       },
       include: {
         books: {
+          where: {
+            readAt: {
+              gte: new Date(new Date().getFullYear().toString()),
+            }
+          },
           include: {
             user: true,
           },

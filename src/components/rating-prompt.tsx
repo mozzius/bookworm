@@ -12,7 +12,7 @@ interface Props {
 }
 
 export const RatingPrompt = ({ book, isOpen, onClose }: Props) => {
-  const utils = api.useContext();
+  const utils = api.useUtils();
   const rate = api.books.rate.useMutation({
     onSuccess() {
       void utils.books.invalidate();

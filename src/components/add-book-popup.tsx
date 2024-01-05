@@ -28,7 +28,7 @@ export const AddBookPopup = ({ isOpen, onClose }: Props) => {
   const search = api.books.search.useQuery(query, {
     enabled: query.length > 2,
   });
-  const utils = api.useContext();
+  const utils = api.useUtils();
   const addBook = api.books.add.useMutation({
     onSuccess(book) {
       void utils.books.invalidate();
