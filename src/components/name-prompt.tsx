@@ -1,7 +1,7 @@
 import { useState } from "react";
-
 import { api } from "@/utils/api";
 import { useSession } from "next-auth/react";
+
 import { Popup } from "./popup";
 
 export const NamePrompt = () => {

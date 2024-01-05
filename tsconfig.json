@@ -24,7 +24,7 @@
       "@/types/*": ["src/types/*"],
       "@/ui/*": ["src/ui/*"],
       "@/utils/*": ["src/utils/*"],
-      "@/images/*": ["public/images/*"],
+      "@/images/*": ["public/images/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.cjs", "**/*.mjs"],

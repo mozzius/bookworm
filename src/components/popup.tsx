@@ -1,5 +1,5 @@
-import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
+import { Dialog, Transition } from "@headlessui/react";
 
 interface Props extends React.PropsWithChildren {
   isOpen: boolean;
@@ -46,7 +46,7 @@ export const Popup = ({ isOpen, onClose, title, children }: Props) => {
                 {!!onClose && (
                   <button
                     onClick={onClose}
-                    className="absolute top-2 right-2 grid h-8 w-8 place-items-center rounded-full border border-transparent font-[x] text-xl transition-colors hover:border-black"
+                    className="absolute right-2 top-2 grid h-8 w-8 place-items-center rounded-full border border-transparent font-[x] text-xl transition-colors hover:border-black"
                   >
                     ×
                   </button>

@@ -1,16 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
+import { useState } from "react";
 import { type InferGetServerSidePropsType, type NextPage } from "next";
 import Head from "next/head";
-import { signIn, signOut, useSession } from "next-auth/react";
-import { useState } from "react";
-import { getDayOfYear } from "date-fns";
-import { Plus } from "lucide-react";
-
-import { api } from "@/utils/api";
-import { NamePrompt } from "@/components/name-prompt";
 import { AddBookPopup } from "@/components/add-book-popup";
 import { BookCard } from "@/components/book-card";
+import { NamePrompt } from "@/components/name-prompt";
+import { api } from "@/utils/api";
 import { cx } from "@/utils/classes";
+import { getDayOfYear } from "date-fns";
+import { Plus } from "lucide-react";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 const days = Array.from({ length: 365 }).map((_, index) => {
   const date = new Date();
@@ -44,7 +43,7 @@ const Home: NextPage<
           <h1
             className={cx(
               "text-4xl font-medium",
-              authed && "hidden sm:inline-block"
+              authed && "hidden sm:inline-block",
             )}
           >
             52 Books
@@ -53,7 +52,7 @@ const Home: NextPage<
             <>
               <button
                 onClick={() => setAddBookPopupOpen(true)}
-                className="flex shrink-0 items-center gap-2 rounded-sm bg-blue-500 py-2 px-4 text-white shadow"
+                className="flex shrink-0 items-center gap-2 rounded-sm bg-blue-500 px-4 py-2 text-white shadow"
               >
                 <Plus /> Add book
               </button>

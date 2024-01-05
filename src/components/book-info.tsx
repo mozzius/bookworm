@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @next/next/no-img-element */
-import { type User, type Book } from "@prisma/client";
+import { type Book, type User } from "@prisma/client";
 import { format } from "date-fns";
 import { ExternalLink } from "lucide-react";
 import { useSession } from "next-auth/react";
@@ -34,7 +34,7 @@ export const BookInfo = ({ book, show, onClose, onReview }: Props) => {
             </p>
           )}
           {book.review && (
-            <div className="mt-3 rounded border border-slate-400 bg-slate-50   py-1 px-2">
+            <div className="mt-3 rounded border border-slate-400 bg-slate-50   px-2 py-1">
               <p className="text-sm">{book.user.name}&apos;s Review</p>
               {book.review.split("\n").map((line, i) => (
                 <p key={i}>{line}</p>
@@ -59,7 +59,7 @@ export const BookInfo = ({ book, show, onClose, onReview }: Props) => {
           onClick={() => {
             window.open(
               `https://openlibrary.org/works/${book.workId}`,
-              "_blank"
+              "_blank",
             );
           }}
         >

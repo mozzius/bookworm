@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { createTRPCRouter, publicProcedure, protectedProcedure } from "../trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 
 const openLibrarySearchSchema = z.object({
   docs: z.array(
@@ -16,7 +16,7 @@ const openLibrarySearchSchema = z.object({
         oclc: z.array(z.string()).optional(),
         isbn: z.array(z.string()).optional(),
       })
-      .passthrough()
+      .passthrough(),
   ),
 });
 
@@ -58,7 +58,7 @@ export const booksRouter = createTRPCRouter({
     }),
   search: protectedProcedure.input(z.string()).query(async ({ input }) => {
     const res = await fetch(
-      "https://openlibrary.org/search.json?q=" + encodeURIComponent(input)
+      "https://openlibrary.org/search.json?q=" + encodeURIComponent(input),
     );
     if (!res.ok) throw new Error("Failed to search books");
     const json = openLibrarySearchSchema.parse(await res.json());
@@ -96,7 +96,7 @@ export const booksRouter = createTRPCRouter({
         readAt: z.date(),
         firstPublishYear: z.number().optional(),
         image: z.string().optional(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       const book = await ctx.prisma.book.create({
@@ -122,7 +122,7 @@ export const booksRouter = createTRPCRouter({
         bookId: z.string(),
         rating: z.number().min(1).max(5).nullable(),
         review: z.string().nullable(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       const book = await ctx.prisma.book.findFirst({

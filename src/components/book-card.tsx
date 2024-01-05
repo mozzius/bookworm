@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
-import { type User, type Book } from "@prisma/client";
 import { useState } from "react";
+import { type Book, type User } from "@prisma/client";
+
 import { BookInfo } from "./book-info";
 import { RatingPrompt } from "./rating-prompt";
 
@@ -28,7 +29,7 @@ export const BookCard = ({ book }: Props) => {
           <img
             src={book.image}
             alt=""
-            className="absolute top-0 left-0 z-10 h-full w-full object-cover opacity-10 transition-transform duration-300 hover:scale-125"
+            className="absolute left-0 top-0 z-10 h-full w-full object-cover opacity-10 transition-transform duration-300 hover:scale-125"
           />
         )}
       </div>

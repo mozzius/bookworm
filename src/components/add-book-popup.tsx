@@ -1,11 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 import { useState } from "react";
-
 import { api } from "@/utils/api";
-import { Popup } from "./popup";
 import { useDebounce } from "@/utils/hooks";
-import { RatingPrompt } from "./rating-prompt";
 import { type Book } from "@prisma/client";
+
+import { Popup } from "./popup";
+import { RatingPrompt } from "./rating-prompt";
 
 interface Props {
   isOpen: boolean;
