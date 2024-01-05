@@ -30,7 +30,7 @@ const Home: NextPage<
   return (
     <>
       <Head>
-        <title>52 Books</title>
+        <title>Bookworm</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <NamePrompt />
@@ -46,7 +46,7 @@ const Home: NextPage<
               authed && "hidden sm:inline-block",
             )}
           >
-            52 Books
+            Bookworm
           </h1>
           {authed ? (
             <>
