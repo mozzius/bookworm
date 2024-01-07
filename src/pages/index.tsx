@@ -93,32 +93,34 @@ const Home: NextPage<
               style={{ width: (32 + 8) * dayOfYear - 8 - 16 }}
             />
             {users.data &&
-              users.data.map((user, i) => {
-                let prize = null;
-                switch (i) {
-                  case 0:
-                    prize = "🥇";
-                    break;
-                  case 1:
-                    prize = "🥈";
-                    break;
-                  case 2:
-                    prize = "🥉";
-                    break;
-                }
-                return (
-                  <div key={user.id} className="mt-4">
-                    <p className="absolute">
-                      {prize} {user.name}
-                    </p>
-                    <div className="mt-7 flex space-x-2">
-                      {user.books.map((book) => (
-                        <BookCard key={book.id} book={book} />
-                      ))}
+              users.data
+                .sort((a, b) => b.books.length - a.books.length)
+                .map((user, i) => {
+                  let prize = null;
+                  switch (i) {
+                    case 0:
+                      prize = "🥇";
+                      break;
+                    case 1:
+                      prize = "🥈";
+                      break;
+                    case 2:
+                      prize = "🥉";
+                      break;
+                  }
+                  return (
+                    <div key={user.id} className="mt-4">
+                      <p className="absolute">
+                        {prize} {user.name}
+                      </p>
+                      <div className="mt-7 flex space-x-2">
+                        {user.books.map((book) => (
+                          <BookCard key={book.id} book={book} />
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
           </div>
         </main>
       </div>

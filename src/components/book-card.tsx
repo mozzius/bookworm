@@ -19,7 +19,7 @@ export const BookCard = ({ book }: Props) => {
     <>
       <div
         key={book.id}
-        className="relative h-14 w-[272px] shrink-0 cursor-pointer overflow-hidden rounded-sm bg-blue-500 pl-2 pt-1 leading-snug text-white"
+        className="relative h-14 w-[272px] shrink-0 cursor-pointer overflow-hidden rounded-sm bg-blue-500 pl-2 pr-1 pt-1 leading-snug text-white"
         onClick={() => setInfoOpen(true)}
       >
         <p className="pointer-events-none relative z-20">

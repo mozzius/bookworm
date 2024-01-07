@@ -25,12 +25,13 @@ const imgUrl = (kind: string, id: string) => (size: "S" | "M" | "L") =>
 
 export const booksRouter = createTRPCRouter({
   everyone: publicProcedure.query(async ({ ctx }) => {
-    return ctx.prisma.user.findMany({
-      orderBy: {
-        books: {
-          _count: "desc",
-        },
-      },
+    return await ctx.prisma.user.findMany({
+      // we want to order by the number of books read this year
+      // orderBy: {
+      //   books: {
+      //     _count: "desc",
+      //   },
+      // },
       include: {
         books: {
           where: {
